@@ -78,11 +78,16 @@ app.get('/usuario', function(req, res) {
                 });
             }
 
-            res.status(200).json({
-                ok: true,
-                cantidad: usuarios.length,
-                usuarios
+            Usuario.count({}, (err, totalCount) => {
+                res.status(200).json({
+                    ok: true,
+                    cantidad: usuarios.length,
+                    totalRows: totalCount,
+                    usuarios
+                });
             });
+
+
 
         })
 });
