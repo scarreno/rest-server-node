@@ -67,7 +67,7 @@ app.get('/usuario', function(req, res) {
 
     let rowsToSkip = pageIndex * pageSize;
 
-    Usuario.find({})
+    Usuario.find({ status: true }, 'name email role status google')
         .limit(pageSize)
         .skip(rowsToSkip)
         .exec((err, usuarios) => {
@@ -78,7 +78,7 @@ app.get('/usuario', function(req, res) {
                 });
             }
 
-            Usuario.count({}, (err, totalCount) => {
+            Usuario.count({ status: true }, (err, totalCount) => {
                 res.status(200).json({
                     ok: true,
                     cantidad: usuarios.length,
@@ -90,5 +90,64 @@ app.get('/usuario', function(req, res) {
 
 
         })
+});
+
+//eliminado logico
+app.delete('/usuario/:id', function(req, res) {
+    let id = req.params.id;
+
+    let updateBody = { status: false };
+    Usuario.findByIdAndUpdate(id, updateBody, { new: true }, (err, updatedUser) => {
+
+        if (err) {
+            return res.status(400).json({
+                ok: false,
+                err
+            });
+        }
+
+        if (!updatedUser) {
+            return res.status(400).json({
+                ok: false,
+                error: {
+                    message: 'Usuario no encontrado'
+                }
+            });
+        }
+
+        return res.status(200).json({
+            ok: true,
+            usuario: updatedUser
+        });
+    });
+});
+
+//eliminado físico
+app.delete('/usuario2/:id', function(req, res) {
+    let id = req.params.id;
+
+    Usuario.findByIdAndRemove(id, (err, deletedUser) => {
+
+        if (err) {
+            return res.status(400).json({
+                ok: false,
+                err
+            });
+        }
+
+        if (!deletedUser) {
+            return res.status(400).json({
+                ok: false,
+                error: {
+                    message: 'Usuario no encontrado'
+                }
+            });
+        }
+
+        return res.status(200).json({
+            ok: true,
+            usuario: deletedUser
+        });
+    });
 });
 module.exports = app;
