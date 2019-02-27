@@ -3,13 +3,13 @@ const app = express();
 const Usuario = require('../models/usuario');
 const bcrypt = require('bcrypt');
 const _ = require('underscore');
-
+const { verificaToken } = require('../middlewares/authentication');
 
 app.get('/usuarios', function(req, res) {
     res.json('get usuario');
 });
 
-app.post('/usuario', function(req, res) {
+app.post('/usuario', verificaToken, function(req, res) {
 
     let body = req.body;
     let usuario = new Usuario({
@@ -37,7 +37,7 @@ app.post('/usuario', function(req, res) {
 
 });
 
-app.put('/usuario/:id', function(req, res) {
+app.put('/usuario/:id', verificaToken, function(req, res) {
     let id = req.params.id;
 
     let body = _.pick(req.body, ['name', 'email', 'img', 'role', 'status']);
@@ -58,7 +58,11 @@ app.put('/usuario/:id', function(req, res) {
     });
 });
 
-app.get('/usuario', function(req, res) {
+
+
+
+app.get('/usuario', verificaToken, (req, res) => {
+
     let pageIndex = req.query.pageIndex || 0;
     pageIndex = Number(pageIndex);
 
@@ -93,7 +97,7 @@ app.get('/usuario', function(req, res) {
 });
 
 //eliminado logico
-app.delete('/usuario/:id', function(req, res) {
+app.delete('/usuario/:id', verificaToken, function(req, res) {
     let id = req.params.id;
 
     let updateBody = { status: false };
@@ -123,7 +127,7 @@ app.delete('/usuario/:id', function(req, res) {
 });
 
 //eliminado físico
-app.delete('/usuario2/:id', function(req, res) {
+app.delete('/usuario2/:id', verificaToken, function(req, res) {
     let id = req.params.id;
 
     Usuario.findByIdAndRemove(id, (err, deletedUser) => {
