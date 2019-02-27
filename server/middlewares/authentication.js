@@ -23,4 +23,20 @@ let verificaToken = (req, res, next) => {
 
 };
 
-module.exports = { verificaToken };
+let verificaAdminRole = (req, res, next) => {
+    let usuario = req.usuario;
+
+    if (usuario.role === 'ADMIN_ROLE') {
+        next();
+    } else {
+        return res.status(401).json({
+            ok: false,
+            error: {
+                message: "Usuario no tiene privilegios de administrador"
+            }
+        });
+    }
+
+};
+
+module.exports = { verificaToken, verificaAdminRole };
