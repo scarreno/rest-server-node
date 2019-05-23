@@ -11,6 +11,13 @@ app.get('/status', function(req, res) {
     });
 });
 
+app.get('/env', function(req, res) {
+    res.json({
+        env: process.env.NODE_ENV
+    });
+});
+
+
 app.post('/usuario',  [verificaToken, verificaAdminRole], function(req, res) {
 
     let body = req.body;
