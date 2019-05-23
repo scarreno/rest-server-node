@@ -1,0 +1,394 @@
+{
+	"info": {
+		"_postman_id": "391a9469-a5e1-b9ce-6100-f0b8adb5a7d2",
+		"name": "Cafe - NodeServer",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Login Normal",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "455e17d3-f7f0-49ef-9f89-17bf8ee0c39f",
+						"exec": [
+							"tests[\"Status Code: 200\"] = responseCode.code === 200;",
+							"",
+							"var jsonData = JSON.parse(responseBody);",
+							"",
+							"tests[\"Response Status is OK\"] = jsonData.ok;",
+							"tests[\"Token obtenido\"] = jsonData.token !== \"\";",
+							"",
+							"if(jsonData.ok){",
+							"    let token = jsonData.token;",
+							"    postman.setEnvironmentVariable(\"token\", token);    ",
+							"} else {",
+							"    console.log('Login inválido. No se actualizó el token')",
+							"}",
+							"",
+							"",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "email",
+							"value": "{{email}}",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "{{password}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{baseURL}}/api/v1/login",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post - Crear Usuario",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e9100f17-65de-44c8-9c9e-50e03215b9ff",
+						"exec": [
+							"tests[\"Status Code: 200\"] = responseCode.code === 200;",
+							"",
+							"var jsonData = JSON.parse(responseBody);",
+							"",
+							"console.log('Create ejecutado!')",
+							"if(jsonData.ok){",
+							"    let usuarioId = jsonData.usuario._id;",
+							"    postman.setEnvironmentVariable(\"usuarioId\", usuarioId);    ",
+							"} else {",
+							"    console.log('No se logro obtener el Id del usuario')",
+							"}",
+							"",
+							"",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{token}}"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "name",
+							"value": "Test",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "123456",
+							"type": "text"
+						},
+						{
+							"key": "role",
+							"value": "ADMIN_ROLE",
+							"type": "text"
+						},
+						{
+							"key": "google",
+							"value": "false",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "{{newUserEmail}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{baseURL}}/api/v1/usuario",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"usuario"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Obtiene Usuario por ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1d28d14d-298a-4362-bab1-02d1a940be2a",
+						"exec": [
+							"tests[\"Status Code: 200\"] = responseCode.code === 200;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{token}}"
+					}
+				],
+				"url": {
+					"raw": "{{baseURL}}/api/v1/usuario/{{usuarioId}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"usuario",
+						"{{usuarioId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Put - Update Usuario",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "53973ab3-daa0-44d1-9f93-e312c2f1d02e",
+						"exec": [
+							"tests[\"Status Code: 200\"] = responseCode.code === 200;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{token}}"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "name",
+							"value": "Test4 updated",
+							"type": "text"
+						},
+						{
+							"key": "google",
+							"value": "true",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{baseURL}}/api/v1/usuario/{{usuarioId}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"usuario",
+						"{{usuarioId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete - Eliminar Usuario",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "82340e2b-2b40-4e86-8966-abfde2415833",
+						"exec": [
+							"tests[\"Status Code: 200\"] = responseCode.code === 200;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{token}}"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "{{baseURL}}/api/v1/usuario/{{usuarioId}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"usuario",
+						"{{usuarioId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get - Obtiene usuarios",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "23d45f30-b22c-46ca-9fe8-0f03675c9143",
+						"exec": [
+							"tests[\"Status Code: 200\"] = responseCode.code === 200;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{token}}"
+					}
+				],
+				"url": {
+					"raw": "{{baseURL}}/api/v1/usuario?pageIndex=0&pageSize=10",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"usuario"
+					],
+					"query": [
+						{
+							"key": "pageIndex",
+							"value": "0"
+						},
+						{
+							"key": "pageSize",
+							"value": "10"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login Google",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"",
+							"if(jsonData.ok){",
+							"    let token = jsonData.token;",
+							"    postman.setEnvironmentVariable(\"token\", token);    ",
+							"} else {",
+							"    console.log('Login inválido. No se actualizó el token')",
+							"}",
+							"",
+							"",
+							"",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "idtoken",
+							"value": "eyJhbGciOiJSUzI1NiIsImtpZCI6ImNmMDIyYTQ5ZTk3ODYxNDhhZDBlMzc5Y2M4NTQ4NDRlMzZjM2VkYzEiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJhY2NvdW50cy5nb29nbGUuY29tIiwiYXpwIjoiODM1ODI2OTY3NDUtNHA3Yzg4dW4zdmM1MmRwbTB0c2NqaXNhNmFqczJsOWcuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJhdWQiOiI4MzU4MjY5Njc0NS00cDdjODh1bjN2YzUyZHBtMHRzY2ppc2E2YWpzMmw5Zy5hcHBzLmdvb2dsZXVzZXJjb250ZW50LmNvbSIsInN1YiI6IjExMzc0MDIwNzMyOTYxODQ1NjU0MiIsImVtYWlsIjoic2VyZ2lvLmNhcnJlbm8uYUBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiYXRfaGFzaCI6InZ5a09rUXVaTFRSelNDQjlhYTFJVUEiLCJuYW1lIjoiU2VyZ2lvIFJhw7psIENhcnJlw7FvIEFyYW5ndWl6IiwicGljdHVyZSI6Imh0dHBzOi8vbGg1Lmdvb2dsZXVzZXJjb250ZW50LmNvbS8teEY0WWNNN29zRGMvQUFBQUFBQUFBQUkvQUFBQUFBQUFBQUEvQUNIaTNyZk9MVHEtazFVeHp5WTZ5Y0VQT0NFeERoV2pZQS9zOTYtYy9waG90by5qcGciLCJnaXZlbl9uYW1lIjoiU2VyZ2lvIFJhw7psIiwiZmFtaWx5X25hbWUiOiJDYXJyZcOxbyBBcmFuZ3VpeiIsImxvY2FsZSI6ImVzIiwiaWF0IjoxNTUxODg0MTg4LCJleHAiOjE1NTE4ODc3ODgsImp0aSI6IjhmN2QwODExODk3MDM4NWFjNTY2NTEzNTIzMzVkN2QzYWVjN2Y4YTMifQ.u5pdvoNn0-vTW1Qg2WROTJhfMNcFgpPwtnfXRh4aUNr5yjt2pMzrBPIYVKkE9JlgZDyYThQVFnXa1ukexn6gRzmRtT657EulGYp_anJ6BA0W2_ZLYQTOHKCDsXYN6TjYKnCV5DDmn52MqPOx41nlzfCAc4eJyZ_1sxefflEgV0kNoTAv3MsvlNPNL3Fs71_pvPM9bJyo4OB43vrPTUzh3qn86HohblDScm_Z-mgMSE645WEVZ90bF4YtliQV_3ydKtIVXA4S-JpzvxJb_06sqTd5jJmFQYA3UxuToB25aSum0K22aKbbfpXVmSvceP-G4hBG3CxZNf1sgpAHbm2ttA",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{baseURL}}/google",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"google"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
