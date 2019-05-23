@@ -12,10 +12,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 //Config global de Rutas
-app.use(require('./routes/index'));
+app.use('/api/v1', require('./routes/index'));
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-//app.use('/api/v1', router);
+
 
 mongoose.connect(process.env.URL_DB, { useNewUrlParser: true }, (err, res) => {
     if (err) throw err;
