@@ -5,11 +5,13 @@ const bcrypt = require('bcrypt');
 const _ = require('underscore');
 const { verificaToken, verificaAdminRole } = require('../middlewares/authentication');
 
-app.get('/usuarios', function(req, res) {
-    res.json('get usuario');
+app.get('/status', function(req, res) {
+    res.json({
+        status: "Servicios Disponibles!"
+    });
 });
 
-app.post('/usuario', function(req, res) {
+app.post('/usuario',  [verificaToken, verificaAdminRole], function(req, res) {
 
     let body = req.body;
     let usuario = new Usuario({
