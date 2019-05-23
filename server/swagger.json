@@ -1,0 +1,454 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Rest NodeJS Server - Cafe",
+    "description": "API para servicios de BD Cafe",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "host": "localhost:3000",
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "Login",
+      "description": "API de login del sistema"
+    },
+    {
+      "name": "Usuario",
+      "description": "API de usuarios del sistema"
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/login": {
+      "post": {
+        "tags": [
+          "Login"
+        ],
+        "description": "Login del servicio",
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "email",
+            "type": "string",
+            "description": "Nombre de Usuario"
+          },
+          {
+            "in": "formData",
+            "name": "password",
+            "type": "string",
+            "description": "Password de Usuario"
+          }
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Login Successful!!!",
+            "schema": {
+              "$ref": "#/definitions/LoginResponse"
+            }
+          }
+        }
+      }
+    },
+    "/usuario": {
+      "get": {
+        "tags": [
+          "Usuario"
+        ],
+        "description": "Obtiene usuarios del sistema",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "pageIndex",
+            "type": "integer",
+            "description": "Indice de página"
+          },
+          {
+            "in": "query",
+            "name": "pageSize",
+            "type": "integer",
+            "description": "Tamaño de página"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "token de autorización",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Users!",
+            "schema": {
+              "$ref": "#/definitions/GetUsuariosResponse"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Usuario"
+        ],
+        "description": "Crea un nuevo usuario",
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "name",
+            "required": true,
+            "type": "string",
+            "description": "Nombre de Usuario"
+          },
+          {
+            "in": "formData",
+            "name": "email",
+            "required": true,
+            "type": "string",
+            "description": "Email de Usuario"
+          },
+          {
+            "in": "formData",
+            "name": "password",
+            "type": "string",
+            "required": true,
+            "description": "Password de Usuario"
+          },
+          {
+            "in": "formData",
+            "name": "role",
+            "type": "string",
+            "required": true,
+            "description": "Rol de Usuario",
+            "enum": [
+              "USER_ROLE",
+              "ADMIN_ROLE"
+            ]
+          },
+          {
+            "in": "formData",
+            "name": "google",
+            "required": true,
+            "type": "boolean",
+            "description": "Procede de google"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "token de autorización",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Usuario guardado con éxito",
+            "schema": {
+              "$ref": "#/definitions/PostUsuarioResponse"
+            }
+          }
+        }
+      }
+    },
+    "/usuario/{usuarioId}": {
+      "put": {
+        "tags": [
+          "Usuario"
+        ],
+        "description": "Actualiza usuario",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "usuarioId",
+            "required": true,
+            "type": "string",
+            "description": "ID de Usuario"
+          },
+          {
+            "in": "formData",
+            "name": "name",
+            "type": "string",
+            "description": "Nombre de Usuario"
+          },
+          {
+            "in": "formData",
+            "name": "email",
+            "type": "string",
+            "description": "Email de Usuario"
+          },
+          {
+            "in": "formData",
+            "name": "password",
+            "type": "string",
+            "description": "Password de Usuario"
+          },
+          {
+            "in": "formData",
+            "name": "role",
+            "type": "string",
+            "description": "Rol de Usuario",
+            "enum": [
+              "USER_ROLE",
+              "ADMIN_ROLE"
+            ]
+          },
+          {
+            "in": "formData",
+            "name": "status",
+            "type": "boolean",
+            "description": "Estado (activado?)"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "token de autorización",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Usuario guardado con éxito",
+            "schema": {
+              "$ref": "#/definitions/PutUsuarioResponse"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Usuario"
+        ],
+        "description": "Elimina usuariosa",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "usuarioId",
+            "required": true,
+            "type": "string",
+            "description": "ID de Usuario"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "token de autorización",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Usuario guardado con éxito",
+            "schema": {
+              "$ref": "#/definitions/DeleteUsuarioResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "LoginResponse": {
+      "properties": {
+        "ok": {
+          "type": "boolean"
+        },
+        "usuario": {
+          "type": "object",
+          "properties": {
+            "role": {
+              "type": "string"
+            },
+            "status": {
+              "type": "boolean"
+            },
+            "_id": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "email": {
+              "type": "string"
+            },
+            "google": {
+              "type": "boolean"
+            }
+          }
+        },
+        "token": {
+          "type": "string"
+        }
+      }
+    },
+    "GetUsuariosResponse": {
+      "properties": {
+        "ok": {
+          "type": "boolean"
+        },
+        "cantidad": {
+          "type": "integer"
+        },
+        "totalRows": {
+          "type": "integer"
+        },
+        "usuarios": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "role": {
+                "type": "string"
+              },
+              "status": {
+                "type": "boolean"
+              },
+              "_id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "email": {
+                "type": "string"
+              },
+              "google": {
+                "type": "boolean"
+              }
+            }
+          }
+        }
+      }
+    },
+    "PostUsuarioResponse": {
+      "properties": {
+        "ok": {
+          "type": "boolean"
+        },
+        "usuario": {
+          "type": "object",
+          "properties": {
+            "role": {
+              "type": "string"
+            },
+            "status": {
+              "type": "boolean"
+            },
+            "_id": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "email": {
+              "type": "string"
+            },
+            "google": {
+              "type": "boolean"
+            }
+          }
+        }
+      }
+    },
+    "PutUsuarioResponse": {
+      "properties": {
+        "ok": {
+          "type": "boolean"
+        },
+        "usuario": {
+          "type": "object",
+          "properties": {
+            "role": {
+              "type": "string"
+            },
+            "status": {
+              "type": "boolean"
+            },
+            "_id": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "email": {
+              "type": "string"
+            },
+            "google": {
+              "type": "boolean"
+            }
+          }
+        }
+      }
+    },
+    "DeleteUsuarioResponse": {
+      "properties": {
+        "ok": {
+          "type": "boolean"
+        },
+        "usuario": {
+          "type": "object",
+          "properties": {
+            "role": {
+              "type": "string"
+            },
+            "status": {
+              "type": "boolean"
+            },
+            "_id": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "email": {
+              "type": "string"
+            },
+            "google": {
+              "type": "boolean"
+            }
+          }
+        }
+      }
+    }
+  }
+}
