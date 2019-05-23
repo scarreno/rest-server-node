@@ -21,7 +21,8 @@
     }
   ],
   "schemes": [
-    "http", "https"
+    "http",
+    "https"
   ],
   "consumes": [
     "application/json"
@@ -178,6 +179,42 @@
       }
     },
     "/usuario/{usuarioId}": {
+      "get": {
+        "tags": [
+          "Usuario"
+        ],
+        "description": "Obtiene usuarios del sistema",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "usuarioId",
+            "required": true,
+            "type": "string",
+            "description": "ID de Usuario"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "token de autorización",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Usuario obtenido!",
+            "schema": {
+              "$ref": "#/definitions/GetUsuarioResponse"
+            }
+          }
+        }
+      },
       "put": {
         "tags": [
           "Usuario"
@@ -420,6 +457,36 @@
       }
     },
     "DeleteUsuarioResponse": {
+      "properties": {
+        "ok": {
+          "type": "boolean"
+        },
+        "usuario": {
+          "type": "object",
+          "properties": {
+            "role": {
+              "type": "string"
+            },
+            "status": {
+              "type": "boolean"
+            },
+            "_id": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "email": {
+              "type": "string"
+            },
+            "google": {
+              "type": "boolean"
+            }
+          }
+        }
+      }
+    },
+    "GetUsuarioResponse": {
       "properties": {
         "ok": {
           "type": "boolean"

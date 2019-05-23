@@ -68,6 +68,26 @@ app.put('/usuario/:id', [verificaToken, verificaAdminRole], function(req, res) {
 });
 
 
+app.get('/usuario/:id', [verificaToken, verificaAdminRole], function(req, res) {
+    let id = req.params.id;
+
+    Usuario.findById(id, (err, usuarioBd) => {
+
+        if (err) {
+            return res.status(400).json({
+                ok: false,
+                err
+            });
+        }
+
+        res.status(200).json({
+            ok: true,
+            usuario: usuarioBd
+        });
+    });
+});
+
+
 
 
 app.get('/usuario', verificaToken, (req, res) => {
