@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const Usuario = require('../models/usuario');
 const app = express();
-
+const _ = require('lodash');
 
 module.exports = app;
 
@@ -11,6 +11,15 @@ module.exports = app;
 app.post('/login', (req, res) => {
 
     let body = req.body;
+
+    if(_.isEmpty(body) ||  _.isUndefined(body.email) || _.isUndefined(body.password)){
+        return res.status(400).json({
+            ok: false,
+            error: {
+                message: "(Usuario) o contraseña inválidos"
+            }
+        });
+    }
 
     Usuario.findOne({ email: body.email }, (err, usuarioDb) => {
         if (err) {
