@@ -13,7 +13,11 @@ app.get('/status', function(req, res) {
 
 app.get('/env', function(req, res) {
     res.json({
-        env: process.env.NODE_ENV
+        env: process.env.NODE_ENV,
+        port: process.env.PORT,
+        db: process.env.URL_DB,
+        token_exp: process.env.CADUCIDAD_TOKEN,
+        token_seed: process.env.TOKEN_SEED
     });
 });
 
