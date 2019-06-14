@@ -18,8 +18,15 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 
 mongoose.connect(process.env.URL_DB, { useNewUrlParser: true }, (err, res) => {
-    if (err) throw err;
+    if (err) {
+        console.log('ERROR de Conexión a MongoDB');
+        console.log(err);
+        throw err
+    };
+
     console.log('Base de Datos Online!!!');
+
+    //console.log(res);
 });
 
 app.listen(process.env.PORT, () => {
