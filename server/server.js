@@ -16,6 +16,11 @@ app.use('/api/v1', require('./routes/index'));
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+  });
 
 mongoose.connect(process.env.URL_DB, { useNewUrlParser: true }, (err, res) => {
     if (err) {
@@ -25,8 +30,6 @@ mongoose.connect(process.env.URL_DB, { useNewUrlParser: true }, (err, res) => {
     };
 
     console.log('Base de Datos Online!!!');
-
-    //console.log(res);
 });
 
 app.listen(process.env.PORT, () => {

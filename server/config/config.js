@@ -3,6 +3,7 @@
 //=====================================
 
 process.env.PORT = process.env.PORT || 3001;
+process.env.MONGO_PORT = process.env.MONGO_PORT || 27017;
 
 
 //=====================================

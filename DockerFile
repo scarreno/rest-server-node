@@ -7,9 +7,10 @@ COPY package.json /usr/src/app/package.json
 RUN npm install
 COPY . /usr/src/app
 
-ENV NODE_ENV="dev"
-ENV MONGO_URI = "mongodb://host.docker.internal:27017/cafe"
-ENV TOKEN_SEED = "sid-de-dev-docker"
+
+##ENV NODE_ENV="dev"
+##ENV MONGO_URI = "mongodb://host.docker.internal:27017/cafe"
+##ENV TOKEN_SEED = "sid-de-dev-docker"
 
 CMD ["npm", "start"]
 
